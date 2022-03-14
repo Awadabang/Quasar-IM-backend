@@ -11,12 +11,13 @@ type User struct {
 	Password string `json:"password"`
 }
 
+// Register
 type registerRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-//Login
+// Login
 type userResponse struct {
 	Username  string    `json:"username"`
 	CreatedAt time.Time `json:"created_at"`
