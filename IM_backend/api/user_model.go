@@ -31,7 +31,7 @@ func newUserResponse(user db.User) userResponse {
 
 type Response_login struct {
 	AccessToken string       `json:"access_token"`
-	User        userResponse `json:"users"`
+	User        userResponse `json:"user"`
 }
 
 type Request_login struct {

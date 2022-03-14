@@ -57,18 +57,15 @@ func (server *Server) Login(ctx *gin.Context) {
 	user, err := server.store.GetUserByName(ctx, req.Username)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			//TODO: apifox update the error 404
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
-		//TODO: apifox update the error 500
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
 	err = util.CheckPassword(req.Password, user.HashedPassword)
 	if err != nil {
-		//TODO: apifox update the error 401
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
