@@ -86,5 +86,10 @@ func (server *Server) Login(ctx *gin.Context) {
 }
 
 func (server *Server) Verify(c *gin.Context) {
-	c.JSON(200, c.GetHeader("Authorization"))
+	_, err := server.tokenMaker.VerifyToken(c.GetHeader("Authorization"))
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, nil)
+		return
+	}
+	c.JSON(http.StatusOK, nil)
 }
