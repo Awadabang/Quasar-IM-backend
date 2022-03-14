@@ -85,6 +85,7 @@ func (server *Server) Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, rsp)
 }
 
+//测试access_token的合法性
 func (server *Server) Verify(c *gin.Context) {
 	_, err := server.tokenMaker.VerifyToken(c.GetHeader("Authorization"))
 	if err != nil {
