@@ -13,4 +13,4 @@ migratedown1:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/Awadabang/Quasar-IM/db/sqlc Store
 
-.PHONY: migrateup migratedown mock
+.PHONY: migrateup migratedown migrateup1 migratedown1 mock
