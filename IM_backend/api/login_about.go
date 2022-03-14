@@ -81,7 +81,7 @@ func (server *Server) Login(ctx *gin.Context) {
 
 	rsp := Response_login{
 		AccessToken: accessToken,
-		Username:    user.Username,
+		User:        newUserResponse(user),
 	}
 
 	ctx.JSON(http.StatusOK, rsp)
