@@ -11,7 +11,7 @@ type User struct {
 	Password string `json:"password"`
 }
 
-type Request_register struct {
+type registerRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -29,12 +29,12 @@ func newUserResponse(user db.User) userResponse {
 	}
 }
 
-type Response_login struct {
+type loginResponse struct {
 	AccessToken string       `json:"access_token"`
 	User        userResponse `json:"user"`
 }
 
-type Request_login struct {
+type loginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }

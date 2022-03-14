@@ -14,7 +14,7 @@ import (
 
 func (server *Server) Register(ctx *gin.Context) {
 	// binding the request of register
-	var req Request_register
+	var req registerRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
@@ -48,7 +48,7 @@ func (server *Server) Register(ctx *gin.Context) {
 }
 
 func (server *Server) Login(ctx *gin.Context) {
-	var req Request_login
+	var req loginRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		//TODO: apifox update the error 400
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -77,7 +77,7 @@ func (server *Server) Login(ctx *gin.Context) {
 		return
 	}
 
-	rsp := Response_login{
+	rsp := loginResponse{
 		AccessToken: accessToken,
 		User:        newUserResponse(user),
 	}
