@@ -7,11 +7,13 @@ import (
 	db "github.com/Awadabang/Quasar-IM/db/sqlc"
 	"github.com/Awadabang/Quasar-IM/util"
 	"github.com/gin-gonic/gin"
-	"github.com/lib/pq"
+	"github.com/go-sql-driver/mysql"
 )
 
+// API: Register Login Verify
+
 func (server *Server) Register(ctx *gin.Context) {
-	//binding the request of register
+	// binding the request of register
 	var req Request_register
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -23,7 +25,7 @@ func (server *Server) Register(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-	//create the user in DB
+	// create the user in DB
 	arg := db.CreateUserParams{
 		Username:       req.Username,
 		HashedPassword: hashedPassword,
@@ -31,10 +33,9 @@ func (server *Server) Register(ctx *gin.Context) {
 	// insert the user into DB
 	_, err = server.store.CreateUser(ctx, arg)
 	if err != nil {
-		if pqErr, ok := err.(*pq.Error); ok {
-			switch pqErr.Code.Name() {
-			case "unique_violation":
-				//the username is not unique
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+			switch mysqlErr.Number {
+			case 1062:
 				ctx.JSON(http.StatusForbidden, errorResponse(err))
 				return
 			}

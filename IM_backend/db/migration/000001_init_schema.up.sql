@@ -1,6 +1,6 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
+  `username` varchar(255) UNIQUE NOT NULL,
   `hashed_password` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT NOW()
+  `created_at` timestamp NOT NULL DEFAULT now()
 );
