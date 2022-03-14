@@ -9,6 +9,8 @@ import (
 	"github.com/Awadabang/Quasar-IM/util"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 //Server serves HTTP requests for our banking service
@@ -32,10 +34,9 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 		tokenMaker: tokenMaker,
 	}
 
-	// if _, ok := binding.Validator.Engine().(*validator.Validate); ok {
-	// v.RegisterValidation("currency", validCurrency)
-	// v.RegisterValidation("type", validType)
-	// }
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("password", validPassword)
+	}
 
 	server.setupRouter()
 	return server, nil
