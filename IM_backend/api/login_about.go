@@ -94,7 +94,7 @@ func (server *Server) Verify(c *gin.Context) {
 	}
 	rsp := verifyResponse{
 		Access_token: auth,
-		Username:     user.Username,
+		User:         hidePayload(user),
 	}
 
 	c.JSON(http.StatusOK, rsp)

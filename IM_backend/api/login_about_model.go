@@ -4,6 +4,7 @@ import (
 	"time"
 
 	db "github.com/Awadabang/Quasar-IM/db/sqlc"
+	"github.com/Awadabang/Quasar-IM/token"
 )
 
 type User struct {
@@ -41,7 +42,17 @@ type loginRequest struct {
 }
 
 //Verify
+func hidePayload(user *token.Payload) hidepayloadResponse {
+	return hidepayloadResponse{
+		Username: user.Username,
+	}
+}
+
+type hidepayloadResponse struct {
+	Username string `json:"username"`
+}
+
 type verifyResponse struct {
-	Access_token string `json:"access_token"`
-	Username     string `json:"username"`
+	Access_token string              `json:"access_token"`
+	User         hidepayloadResponse `json:"user"`
 }
