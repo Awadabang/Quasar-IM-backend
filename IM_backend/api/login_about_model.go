@@ -39,3 +39,9 @@ type loginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+//Verify
+type verifyResponse struct {
+	Access_token string `json:"access_token"`
+	Username     string `json:"username"`
+}

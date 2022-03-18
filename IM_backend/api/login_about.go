@@ -50,7 +50,6 @@ func (server *Server) Register(ctx *gin.Context) {
 func (server *Server) Login(ctx *gin.Context) {
 	var req loginRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		//TODO: apifox update the error 400
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
@@ -87,10 +86,16 @@ func (server *Server) Login(ctx *gin.Context) {
 
 //测试access_token的合法性
 func (server *Server) Verify(c *gin.Context) {
-	_, err := server.tokenMaker.VerifyToken(c.GetHeader("Authorization"))
+	var auth string = c.GetHeader("Authorization")
+	user, err := server.tokenMaker.VerifyToken(auth)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, nil)
 		return
 	}
-	c.JSON(http.StatusOK, nil)
+	rsp := verifyResponse{
+		Access_token: auth,
+		Username:     user.Username,
+	}
+
+	c.JSON(http.StatusOK, rsp)
 }
