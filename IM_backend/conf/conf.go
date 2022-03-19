@@ -1,9 +1,19 @@
+/*
+ * @Author: Awadabang
+ * @Date: 2022-02-28 22:33:31
+ * @LastEditTime: 2022-03-19 20:58:20
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \Quasar-IM-backend\IM_backend\conf\conf.go
+ */
 package conf
 
 import (
 	"context"
+	"log"
 	"strconv"
 
+	"github.com/Awadabang/Quasar-IM/util"
 	"github.com/go-redis/redis"
 	logging "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -14,7 +24,34 @@ import (
 var (
 	MongoDBClient *mongo.Client
 	RedisClient   *redis.Client
+	MongoDBSource string
+	MnongoDBName  string
+	RedisAddr     string
+	RedisDBName   string
+	RedisPw       string
 )
+
+func Init() {
+	if err := LoadLocales("conf/locales/zh-cn.yaml"); err != nil {
+		logging.Info(err) //日志内容
+		panic(err)
+	}
+	//viper
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load of config:", err)
+	}
+	MongoDBSource = config.MongoDBSource
+	MnongoDBName = config.MongoDBName
+	RedisAddr = config.RedisAddr
+	RedisDBName = config.RedisDbName
+	RedisPw = config.RedisPw
+
+	//MongoDB
+	MongoDB_Conn(MongoDBSource)
+	//Redis
+	Redis_Conn(RedisAddr, RedisDBName, RedisPw)
+}
 
 func MongoDB_Conn(connString string) {
 	clientOptions := options.Client().ApplyURI(connString)

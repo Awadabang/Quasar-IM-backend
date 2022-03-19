@@ -15,6 +15,7 @@ type Config struct {
 	RedisDbName         string        `mapstructure:"REDIS_DBNAME"`
 	RedisPw             string        `mapstructure:"REDIS_PW"`
 	MongoDBSource       string        `mapstructure:"MONGO_DB_SOURCE"`
+	MongoDBName         string        `mapstructure:"MONGO_DB_NAME"`
 	MysqlDBSource       string        `mapstructure:"MYSQL_DB_SOURCE"`
 	DBTESTSOURCE        string        `mapstructure:"DB_TEST_SOURCE"`
 	ServerAddress       string        `mapstructure:"SERVER_ADDRESS"`
