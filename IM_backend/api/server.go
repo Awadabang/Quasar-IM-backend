@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-09 00:08:12
- * @LastEditTime: 2022-03-20 16:04:22
+ * @LastEditTime: 2022-03-20 18:52:58
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Quasar-IM-backend\IM_backend\api\server.go
@@ -63,11 +63,13 @@ func (server *Server) setupRouter() {
 	{
 		rootRoutes.POST("login", server.Login)
 		rootRoutes.POST("register", server.Register)
-		rootRoutes.GET("ws", service.WsHandler)
+
 	}
 
 	v1 := router.Group("/api/v1").Use(middleware.AuthMiddleware(server.tokenMaker))
 	{
+		v1.GET("ws", service.WsHandler)
+
 		v1.POST("verify", server.Verify)
 
 		v1.GET("get_conv", server.Get_conv)
