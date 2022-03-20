@@ -3,8 +3,10 @@ package api
 import (
 	"database/sql"
 	"net/http"
+	"strings"
 
 	db "github.com/Awadabang/Quasar-IM/db/sqlc"
+	"github.com/Awadabang/Quasar-IM/middleware"
 	"github.com/Awadabang/Quasar-IM/util"
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
@@ -86,14 +88,16 @@ func (server *Server) Login(ctx *gin.Context) {
 
 //测试access_token的合法性
 func (server *Server) Verify(ctx *gin.Context) {
-	var auth string = ctx.GetHeader("Authorization")
-	user, err := server.tokenMaker.VerifyToken(auth)
+	authorizationHeader := ctx.GetHeader(middleware.AuthorizationHeaderKey)
+	fields := strings.Fields(authorizationHeader)
+	accessToken := fields[1]
+	user, err := server.tokenMaker.VerifyToken(accessToken)
 	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, err)
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
 	rsp := verifyResponse{
-		Access_token: auth,
+		Access_token: accessToken,
 		User:         hidePayload(user),
 	}
 
