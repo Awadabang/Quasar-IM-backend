@@ -89,7 +89,7 @@ func (server *Server) Verify(ctx *gin.Context) {
 	var auth string = ctx.GetHeader("Authorization")
 	user, err := server.tokenMaker.VerifyToken(auth)
 	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, nil)
+		ctx.JSON(http.StatusUnauthorized, err)
 		return
 	}
 	rsp := verifyResponse{
