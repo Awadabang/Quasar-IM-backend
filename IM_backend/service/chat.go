@@ -72,12 +72,14 @@ func createId(uid, toUid string) string {
 	return uid + "->" + toUid
 }
 
-var upgrader = websocket.Upgrader{}
-
 func WsHandler(c *gin.Context) {
-	uid := c.Query("uid")                                   // 自己的id
-	toUid := c.Query("toUid")                               // 对方的id
-	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil) // 升级成ws协议
+	uid := c.Query("uid")     // 自己的id
+	toUid := c.Query("toUid") // 对方的id
+	conn, err := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool {
+		fmt.Println("升级协议", "ua:", r.Header["User-Agent"], "referer:", r.Header["Referer"])
+		return true
+	}}).Upgrade(c.Writer, c.Request, nil) // 升级成ws协议
+
 	if err != nil {
 		http.NotFound(c.Writer, c.Request)
 		return
