@@ -9,20 +9,21 @@ import (
 )
 
 const createUser = `-- name: CreateUser :execresult
-INSERT INTO users (username, hashed_password) VALUES (?,?)
+INSERT INTO users (username, avatar, hashed_password) VALUES (?,?,?)
 `
 
 type CreateUserParams struct {
 	Username       string `json:"username"`
+	Avatar         string `json:"avatar"`
 	HashedPassword string `json:"hashed_password"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (sql.Result, error) {
-	return q.db.ExecContext(ctx, createUser, arg.Username, arg.HashedPassword)
+	return q.db.ExecContext(ctx, createUser, arg.Username, arg.Avatar, arg.HashedPassword)
 }
 
 const getUserByName = `-- name: GetUserByName :one
-SELECT id, username, hashed_password, created_at FROM users WHERE username = ? LIMIT 1
+SELECT id, username, avatar, sent, hashed_password, created_at FROM users WHERE username = ? LIMIT 1
 `
 
 func (q *Queries) GetUserByName(ctx context.Context, username string) (User, error) {
@@ -31,6 +32,8 @@ func (q *Queries) GetUserByName(ctx context.Context, username string) (User, err
 	err := row.Scan(
 		&i.ID,
 		&i.Username,
+		&i.Avatar,
+		&i.Sent,
 		&i.HashedPassword,
 		&i.CreatedAt,
 	)

@@ -30,6 +30,7 @@ func (server *Server) Register(ctx *gin.Context) {
 	// create the user in DB
 	arg := db.CreateUserParams{
 		Username:       req.Username,
+		Avatar:         server.config.DefaultAvatar,
 		HashedPassword: hashedPassword,
 	}
 	// insert the user into DB

@@ -1,6 +1,8 @@
 CREATE TABLE `users` (
   `id` bigint PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) UNIQUE NOT NULL,
+  `avatar` varchar(255) NOT NULL,
+  `sent` varchar(255) NOT NULL DEFAULT false,
   `hashed_password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT now()
 );

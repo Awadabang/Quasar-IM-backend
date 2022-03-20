@@ -22,6 +22,8 @@ type Friend struct {
 type User struct {
 	ID             int64     `json:"id"`
 	Username       string    `json:"username"`
+	Avatar         string    `json:"avatar"`
+	Sent           string    `json:"sent"`
 	HashedPassword string    `json:"hashed_password"`
 	CreatedAt      time.Time `json:"created_at"`
 }

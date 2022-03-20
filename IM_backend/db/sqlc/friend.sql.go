@@ -23,7 +23,7 @@ func (q *Queries) AddFriend(ctx context.Context, arg AddFriendParams) (sql.Resul
 }
 
 const getOnesFriends = `-- name: GetOnesFriends :many
-SELECT friend.id, owner, friend_id, friend.created_at, users.id, username, hashed_password, users.created_at 
+SELECT friend.id, owner, friend_id, friend.created_at, users.id, username, avatar, sent, hashed_password, users.created_at 
 FROM friend INNER JOIN users ON friend.friend_id = users.id 
 WHERE owner = ?
 LIMIT ?
@@ -43,6 +43,8 @@ type GetOnesFriendsRow struct {
 	CreatedAt      time.Time `json:"created_at"`
 	ID_2           int64     `json:"id_2"`
 	Username       string    `json:"username"`
+	Avatar         string    `json:"avatar"`
+	Sent           string    `json:"sent"`
 	HashedPassword string    `json:"hashed_password"`
 	CreatedAt_2    time.Time `json:"created_at_2"`
 }
@@ -63,6 +65,8 @@ func (q *Queries) GetOnesFriends(ctx context.Context, arg GetOnesFriendsParams) 
 			&i.CreatedAt,
 			&i.ID_2,
 			&i.Username,
+			&i.Avatar,
+			&i.Sent,
 			&i.HashedPassword,
 			&i.CreatedAt_2,
 		); err != nil {
