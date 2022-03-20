@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-03-20 15:40:21
- * @LastEditTime: 2022-03-20 16:43:04
+ * @LastEditTime: 2022-03-20 16:46:31
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Quasar-IM-backend\IM_backend\api\friend_about.go
@@ -61,6 +61,7 @@ func (server *Server) Get_friends(ctx *gin.Context) {
 
 	for _, v := range friends {
 		rsp = append(rsp, getfriendsResponse{
+			ID:        v.ID,
 			Friend_id: v.FriendID,
 			Username:  v.Username,
 		})
