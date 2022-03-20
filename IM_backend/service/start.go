@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-03-19 22:21:33
- * @LastEditTime: 2022-03-19 22:26:45
- * @LastEditors: your name
+ * @LastEditTime: 2022-03-20 14:24:44
+ * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \Quasar-IM-backend\IM_backend\service\start.go
  */
@@ -67,6 +67,9 @@ func (manager *ClientManager) Start() {
 					Content: "对方在线应答",
 				}
 				msg, err := json.Marshal(replyMsg)
+				if err != nil {
+					fmt.Println("Json Marshal Err", err)
+				}
 				_ = broadcast.Client.Socket.WriteMessage(websocket.TextMessage, msg)
 				err = InsertMsg(conf.MnongoDBName, id, string(message), 1, int64(3*month))
 				if err != nil {
@@ -79,6 +82,9 @@ func (manager *ClientManager) Start() {
 					Content: "对方不在线应答",
 				}
 				msg, err := json.Marshal(replyMsg)
+				if err != nil {
+					fmt.Println("Json Marshal Err", err)
+				}
 				_ = broadcast.Client.Socket.WriteMessage(websocket.TextMessage, msg)
 				err = InsertMsg(conf.MnongoDBName, id, string(message), 0, int64(3*month))
 				if err != nil {

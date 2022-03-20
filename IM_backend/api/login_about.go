@@ -70,7 +70,7 @@ func (server *Server) Login(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, err := server.tokenMaker.CreateToken(user.Username, server.config.AccessTokenDuration)
+	accessToken, err := server.tokenMaker.CreateToken(user.ID, user.Username, server.config.AccessTokenDuration)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -85,11 +85,11 @@ func (server *Server) Login(ctx *gin.Context) {
 }
 
 //测试access_token的合法性
-func (server *Server) Verify(c *gin.Context) {
-	var auth string = c.GetHeader("Authorization")
+func (server *Server) Verify(ctx *gin.Context) {
+	var auth string = ctx.GetHeader("Authorization")
 	user, err := server.tokenMaker.VerifyToken(auth)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, nil)
+		ctx.JSON(http.StatusUnauthorized, nil)
 		return
 	}
 	rsp := verifyResponse{
@@ -97,5 +97,5 @@ func (server *Server) Verify(c *gin.Context) {
 		User:         hidePayload(user),
 	}
 
-	c.JSON(http.StatusOK, rsp)
+	ctx.JSON(http.StatusOK, rsp)
 }

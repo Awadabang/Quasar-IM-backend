@@ -6,8 +6,21 @@ import (
 	"time"
 )
 
+type Conversation struct {
+	ID     int64 `json:"id"`
+	Owner  int64 `json:"owner"`
+	UserID int64 `json:"user_id"`
+}
+
+type Friend struct {
+	ID        int64     `json:"id"`
+	Owner     int64     `json:"owner"`
+	FriendID  int64     `json:"friend_id"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
 type User struct {
-	ID             int32     `json:"id"`
+	ID             int64     `json:"id"`
 	Username       string    `json:"username"`
 	HashedPassword string    `json:"hashed_password"`
 	CreatedAt      time.Time `json:"created_at"`

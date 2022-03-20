@@ -8,7 +8,9 @@ import (
 )
 
 type Querier interface {
+	AddFriend(ctx context.Context, arg AddFriendParams) (sql.Result, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (sql.Result, error)
+	GetOnesFriends(ctx context.Context, arg GetOnesFriendsParams) ([]GetOnesFriendsRow, error)
 	GetUserByName(ctx context.Context, username string) (User, error)
 }
 
